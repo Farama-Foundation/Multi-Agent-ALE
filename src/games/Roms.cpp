@@ -124,6 +124,7 @@
 #include "games/supported/Zaxxon.hpp"
 
 #include "emucore/MD5.hxx"
+#include <fstream>
 
 namespace ale {
 
