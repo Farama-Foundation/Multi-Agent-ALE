@@ -58,7 +58,7 @@ class ALEPythonInterface : public ALEInterface {
 
 } // namespace ale
 
-PYBIND11_MODULE(ale_py, m) {
+PYBIND11_MODULE(multi_agent_ale_py, m) {
   m.attr("__version__") = py::str(ALE_VERSION_STR);
 #ifdef __USE_SDL
   m.attr("SDL") = py::bool_(true);

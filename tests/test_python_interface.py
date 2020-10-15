@@ -3,19 +3,19 @@ import os
 import pickle
 import tempfile
 import numpy as np
-import ale_py
+import multi_agent_ale_py
 
 
 def test_ale_version():
-    assert hasattr(ale_py, "__version__")
+    assert hasattr(multi_agent_ale_py, "__version__")
 
 
 def test_ale_construction(ale):
-    assert isinstance(ale, ale_py.ALEInterface)
+    assert isinstance(ale, multi_agent_ale_py.ALEInterface)
 
 
 def test_load_rom(tetris):
-    assert isinstance(tetris, ale_py.ALEInterface)
+    assert isinstance(tetris, multi_agent_ale_py.ALEInterface)
 
 
 def test_string_config(tetris):
@@ -245,6 +245,6 @@ def test_state_pickle(tetris):
 
 
 def test_set_logger(ale):
-    ale.setLoggerMode(ale_py.LoggerMode.Info)
-    ale.setLoggerMode(ale_py.LoggerMode.Warning)
-    ale.setLoggerMode(ale_py.LoggerMode.Error)
+    ale.setLoggerMode(multi_agent_ale_py.LoggerMode.Info)
+    ale.setLoggerMode(multi_agent_ale_py.LoggerMode.Warning)
+    ale.setLoggerMode(multi_agent_ale_py.LoggerMode.Error)

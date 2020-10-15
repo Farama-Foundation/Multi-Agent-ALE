@@ -1,6 +1,6 @@
 import pytest
 
-import ale_py
+import multi_agent_ale_py
 
 
 @pytest.fixture
@@ -10,7 +10,7 @@ def test_rom_path(resources):
 
 @pytest.fixture
 def ale():
-    yield ale_py.ALEInterface()
+    yield multi_agent_ale_py.ALEInterface()
 
 
 @pytest.fixture

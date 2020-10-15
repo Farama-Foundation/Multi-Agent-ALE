@@ -189,7 +189,7 @@ setup(
     zip_safe=False,
     include_package_data=True,
     distclass=Distribution,
-    ext_modules=[CMakeExtension("ale-py")],
+    ext_modules=[CMakeExtension("multi-agent-ale-py")],
     cmdclass={"build_ext": BuildALEPythonInterface, "clean": Clean},
     install_requires=["numpy"],
     test_requires=["pytest"],
