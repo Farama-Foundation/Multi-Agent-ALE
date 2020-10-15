@@ -23,9 +23,9 @@
  * *****************************************************************************
  */
 
-#include "Othello.hpp"
+#include "games/supported/Othello.hpp"
 
-#include "../RomUtils.hpp"
+#include "games/RomUtils.hpp"
 
 namespace ale {
 
@@ -43,18 +43,20 @@ void OthelloSettings::step(const System& system) {
   m_reward_m2 = -m_reward_m1;
   m_score = score;
 
-  // Player indicator is zero if game is over
+  // Player indicator is 0xff if white's turn, 0x01 if black's turn, and 0x00
+  // if the game is over. Also it is 0x00 in other situations, but only
+  // temporarily.
   if (readRam(&system, 0xc0) == 0) {
-    ++m_cursor_inactive;
+    ++m_no_input;
   } else {
-    m_cursor_inactive = 0;
+    m_no_input = 0;
   }
 
   // The game is over when there are no more valid moves not necessarily when
   // the board is full of counters. We must also wait for the counters to reach
   // their final colour for scoring. We detect this when the cursor stops
   // flashing for at least one second, signalling no more player input.
-  m_terminal = m_cursor_inactive > 75;
+  m_terminal = m_no_input > 50;
 
   if(two_player_mode){
     if (m_reward_m1 != 0){
@@ -108,7 +110,7 @@ void OthelloSettings::reset() {
   m_score = 0;
   turn_same_count = 0;
   m_terminal = false;
-  m_cursor_inactive = 0;
+  m_no_input = 0;
 }
 
 void OthelloSettings::saveState(Serializer& ser) {
@@ -118,7 +120,7 @@ void OthelloSettings::saveState(Serializer& ser) {
   ser.putInt(turn_same_count);
   ser.putBool(m_terminal);
   ser.putBool(two_player_mode);
-  ser.putInt(m_cursor_inactive);
+  ser.putInt(m_no_input);
   ser.putInt(max_turn_time);
 }
 
@@ -129,7 +131,7 @@ void OthelloSettings::loadState(Deserializer& ser) {
   turn_same_count = ser.getInt();
   m_terminal = ser.getBool();
   two_player_mode = ser.getBool();
-  m_cursor_inactive = ser.getInt();
+  m_no_input = ser.getInt();
   max_turn_time = ser.getInt();
 }
 

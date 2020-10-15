@@ -19,12 +19,12 @@
 #include <assert.h>
 #include <iostream>
 
-#include "Device.hxx"
-#include "M6502.hxx"
-#include "TIA.hxx"
-#include "System.hxx"
-#include "Serializer.hxx"
-#include "Deserializer.hxx"
+#include "emucore/Device.hxx"
+#include "emucore/M6502.hxx"
+#include "emucore/TIA.hxx"
+#include "emucore/System.hxx"
+#include "emucore/Serializer.hxx"
+#include "emucore/Deserializer.hxx"
 using namespace std;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

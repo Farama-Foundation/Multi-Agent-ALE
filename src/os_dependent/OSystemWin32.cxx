@@ -20,9 +20,9 @@
 #include <fstream>
 #include <windows.h>
 
-#include "bspf.hxx"
-#include "OSystem.hxx"
-#include "OSystemWin32.hxx"
+#include "emucore/bspf/bspf.hxx"
+#include "emucore/OSystem.hxx"
+#include "os_dependent/OSystemWin32.hxx"
 
 using namespace std;
 

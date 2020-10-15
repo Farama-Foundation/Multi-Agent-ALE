@@ -23,9 +23,9 @@
  * *****************************************************************************
  */
 
-#include "SpaceWar.hpp"
+#include "games/supported/SpaceWar.hpp"
 
-#include "../RomUtils.hpp"
+#include "games/RomUtils.hpp"
 
 namespace ale {
 
@@ -132,7 +132,7 @@ void SpaceWarSettings::setMode(
     int wanted_mode = m;
 
     // Press select until the correct mode is reached.
-    while (getDecimalScore(0xa7, &system) != wanted_mode) {
+    while (getDecimalScore(0xa7, &system) != m) {
       environment->pressSelect(2);
     }
 

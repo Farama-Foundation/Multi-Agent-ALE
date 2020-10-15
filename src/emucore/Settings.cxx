@@ -23,10 +23,10 @@
 #include <string>
 using namespace std;
 
-#include "OSystem.hxx"
-#include "Version.hxx"
-#include "bspf.hxx"
-#include "Settings.hxx"
+#include "emucore/OSystem.hxx"
+#include "common/Version.hxx"
+#include "emucore/bspf/bspf.hxx"
+#include "emucore/Settings.hxx"
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Settings::Settings(OSystem* osystem) : myOSystem(osystem) {
@@ -628,6 +628,6 @@ void Settings::setDefaultSettings() {
 template<typename ValueType>
 void Settings::verifyVariableExistence(map<string, ValueType> dict, string key){
     if(dict.find(key) == dict.end()){
-      throw std::runtime_error("The key " + key + " you are trying to set does not exist.\n");
+      throw std::runtime_error("The key " + key + " you are trying to set does not exist or has incorrect value type.\n");
     }
 }

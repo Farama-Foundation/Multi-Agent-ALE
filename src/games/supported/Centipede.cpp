@@ -25,9 +25,9 @@
  * *****************************************************************************
  */
 
-#include "Centipede.hpp"
+#include "games/supported/Centipede.hpp"
 
-#include "../RomUtils.hpp"
+#include "games/RomUtils.hpp"
 
 namespace ale {
 
@@ -124,9 +124,6 @@ ModeVect CentipedeSettings::getAvailableModes() {
 void CentipedeSettings::setMode(
     game_mode_t m, System& system,
     std::unique_ptr<StellaEnvironmentWrapper> environment) {
-  if (m == 0) {
-    m = 0x16; // The default mode doesn't work here.
-  }
   if (m == 0x16 || m == 0x56) {
     // read the mode we are currently in
     unsigned char mode = readRam(&system, 0xA7);

@@ -231,9 +231,12 @@ void ALEInterface::loadROM(std::string rom_file) {
 }
 
 // Get the value of a setting.
-std::string ALEInterface::getString(const std::string& key) {
+const std::string& ALEInterface::getStringInplace(const std::string& key) {
   assert(theSettings.get());
   return theSettings->getString(key);
+}
+std::string ALEInterface::getString(const std::string& key) {
+  return getStringInplace(key);
 }
 int ALEInterface::getInt(const std::string& key) {
   assert(theSettings.get());

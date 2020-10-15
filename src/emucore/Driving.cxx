@@ -18,9 +18,9 @@
 
 #include <cassert>
 
-#include "Event.hxx"
-#include "Driving.hxx"
-#include "System.hxx"
+#include "emucore/Event.hxx"
+#include "emucore/Driving.hxx"
+#include "emucore/System.hxx"
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Driving::Driving(Jack jack, const Event& event)

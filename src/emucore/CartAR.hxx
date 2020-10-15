@@ -24,9 +24,9 @@ class System;
 class Serializer;
 class Deserializer;
 
-#include "m6502/src/bspf/src/bspf.hxx"
-#include "Cart.hxx"
-#include "Random.hxx"
+#include "emucore/bspf/bspf.hxx"
+#include "emucore/Cart.hxx"
+#include "emucore/Random.hxx"
 
 /**
   This is the cartridge class for Arcadia (aka Starpath) Supercharger 

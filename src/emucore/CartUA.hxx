@@ -23,9 +23,9 @@ class System;
 class Serializer;
 class Deserializer;
 
-#include "m6502/src/bspf/src/bspf.hxx"
-#include "Cart.hxx"
-#include "System.hxx"
+#include "emucore/bspf/bspf.hxx"
+#include "emucore/Cart.hxx"
+#include "emucore/System.hxx"
 
 /**
   Cartridge class used for UA Limited's 8K bankswitched games.  There

@@ -16,7 +16,7 @@
  * *****************************************************************************
  */
 
-#include "RomSettings.hpp"
+#include "games/RomSettings.hpp"
 
 #include <algorithm>
 #include <cassert>
@@ -64,6 +64,16 @@ void RomSettings::setMode(game_mode_t m, System&, std::unique_ptr<StellaEnvironm
   // By default, 0 is the only available mode
   if (m != 0) {
     throw std::runtime_error("This mode is not currently available for this game");
+  }
+}
+
+game_mode_t RomSettings::getDefaultMode() {
+  // By default, return the first available mode, or 0 if none are listed
+  ModeVect available_modes = getAvailableModes();
+  if (available_modes.empty()) {
+    return 0;
+  } else {
+    return available_modes[0];
   }
 }
 

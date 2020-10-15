@@ -25,10 +25,10 @@ class Serializer;
 class Deserializer;
 class Settings;
 
-#include "m6502/src/bspf/src/bspf.hxx"
-#include "Sound.hxx"
-#include "m6502/src/Device.hxx"
-#include "MediaSrc.hxx"
+#include "emucore/bspf/bspf.hxx"
+#include "emucore/Sound.hxx"
+#include "emucore/Device.hxx"
+#include "emucore/MediaSrc.hxx"
 
 /**
   This class is a device that emulates the Television Interface Adapator 

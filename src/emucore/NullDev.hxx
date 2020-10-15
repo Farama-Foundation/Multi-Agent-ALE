@@ -13,37 +13,39 @@
 // See the file "license" for information on usage and redistribution of
 // this file, and for a DISCLAIMER OF ALL WARRANTIES.
 //
-// $Id: Device.hxx,v 1.6 2007/01/14 16:17:57 stephena Exp $
+// $Id: NullDev.hxx,v 1.5 2007/01/01 18:04:51 stephena Exp $
 //============================================================================
 
-#ifndef DEVICE_HXX
-#define DEVICE_HXX
+#ifndef NULLDEVICE_HXX
+#define NULLDEVICE_HXX
 
 class System;
 class Serializer;
 class Deserializer;
 
-#include "bspf/src/bspf.hxx"
+#include "emucore/bspf/bspf.hxx"
+#include "emucore/Device.hxx"
 
 /**
-  Abstract base class for devices which can be attached to a 6502
-  based system.
-
+  Class that represents a "null" device.  The basic idea is that a
+  null device is installed in a 6502 based system anywhere there are
+  holes in the address space (i.e. no real device attached). 
+ 
   @author  Bradford W. Mott
-  @version $Id: Device.hxx,v 1.6 2007/01/14 16:17:57 stephena Exp $
+  @version $Id: NullDev.hxx,v 1.5 2007/01/01 18:04:51 stephena Exp $
 */
-class Device
+class NullDevice : public Device
 {
   public:
     /**
-      Create a new device
+      Create a new null device
     */
-    Device();
+    NullDevice();
 
     /**
       Destructor
     */
-    virtual ~Device();
+    virtual ~NullDevice();
 
   public:
     /**
@@ -51,19 +53,12 @@ class Device
 
       @return The name of the device
     */
-    virtual const char* name() const = 0;
+    virtual const char* name() const;
 
     /**
       Reset device to its power-on state
     */
-    virtual void reset() = 0;
-
-    /**
-      Notification method invoked by the system right before the
-      system resets its cycle counter to zero.  It may be necessary 
-      to override this method for devices that remember cycle counts.
-    */
-    virtual void systemCyclesReset();
+    virtual void reset();
 
     /**
       Install device in the specified system.  Invoked by the system
@@ -71,7 +66,7 @@ class Device
 
       @param system The system the device should install itself in
     */
-    virtual void install(System& system) = 0;
+    virtual void install(System& system);
 
     /**
       Saves the current state of this device to the given Serializer.
@@ -79,7 +74,7 @@ class Device
       @param out The serializer device to save to.
       @return The result of the save.  True on success, false on failure.
     */
-    virtual bool save(Serializer& out) = 0;
+    virtual bool save(Serializer& out);
 
     /**
       Loads the current state of this device from the given Deserializer.
@@ -87,7 +82,7 @@ class Device
       @param in The deserializer device to load from.
       @return The result of the load.  True on success, false on failure.
     */
-    virtual bool load(Deserializer& in) = 0;
+    virtual bool load(Deserializer& in);
 
   public:
     /**
@@ -95,7 +90,7 @@ class Device
 
       @return The byte at the specified address
     */
-    virtual uInt8 peek(uInt16 address) = 0;
+    virtual uInt8 peek(uInt16 address);
 
     /**
       Change the byte at the specified address to the given value
@@ -103,11 +98,7 @@ class Device
       @param address The address where the value should be stored
       @param value The value to be stored at the address
     */
-    virtual void poke(uInt16 address, uInt8 value) = 0;
-
-  protected:
-    /// Pointer to the system the device is installed in or the null pointer
-    System* mySystem;
+    virtual void poke(uInt16 address, uInt8 value);
 };
-
 #endif
+ 

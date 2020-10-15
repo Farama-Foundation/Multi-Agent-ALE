@@ -25,9 +25,9 @@
  * *****************************************************************************
  */
 
-#include "DemonAttack.hpp"
+#include "games/supported/DemonAttack.hpp"
 
-#include "../RomUtils.hpp"
+#include "games/RomUtils.hpp"
 
 namespace ale {
 
@@ -116,9 +116,6 @@ ModeVect DemonAttackSettings::getAvailableModes() {
 void DemonAttackSettings::setMode(
     game_mode_t m, System& system,
     std::unique_ptr<StellaEnvironmentWrapper> environment) {
-  if (m == 0) {
-    m = 1; // The default mode is not valid here
-  }
   if (m == 1 || m == 3 || m == 5 || m == 7) {
     // read the mode we are currently in
     unsigned char mode = readRam(&system, 0xEA);

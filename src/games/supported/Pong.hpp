@@ -28,7 +28,7 @@
 #ifndef __PONG_HPP__
 #define __PONG_HPP__
 
-#include "../RomSettings4P.hpp"
+#include "games/RomSettings4P.hpp"
 
 namespace ale {
 

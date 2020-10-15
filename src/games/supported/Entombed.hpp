@@ -26,8 +26,8 @@
 #ifndef __ENTOMBED_HPP__
 #define __ENTOMBED_HPP__
 
-#include "../RomSettings.hpp"
-#include "../RomSettings2P.hpp"
+#include "games/RomSettings.hpp"
+#include "games/RomSettings2P.hpp"
 
 namespace ale {
 

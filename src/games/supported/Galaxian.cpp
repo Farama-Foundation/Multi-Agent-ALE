@@ -24,9 +24,9 @@
  * *****************************************************************************
  */
 
-#include "Galaxian.hpp"
+#include "games/supported/Galaxian.hpp"
 
-#include "../RomUtils.hpp"
+#include "games/RomUtils.hpp"
 
 namespace ale {
 
@@ -121,9 +121,6 @@ ModeVect GalaxianSettings::getAvailableModes() {
 void GalaxianSettings::setMode(
     game_mode_t mode, System& system,
     std::unique_ptr<StellaEnvironmentWrapper> environment) {
-  if (mode == 0)
-    mode = 1;
-
   if (mode >= 1 && mode <= 9) {
     // press select until the correct mode is reached
     while (mode != static_cast<unsigned>(readRam(&system, 0xB3))) {

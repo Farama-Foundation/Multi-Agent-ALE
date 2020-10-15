@@ -26,8 +26,8 @@
 #ifndef __OTHELLO_HPP__
 #define __OTHELLO_HPP__
 
-#include "../RomSettings.hpp"
-#include "../RomSettings2P.hpp"
+#include "games/RomSettings.hpp"
+#include "games/RomSettings2P.hpp"
 
 namespace ale {
 
@@ -75,7 +75,7 @@ class OthelloSettings : public RomSettings2P {
   reward_t m_reward_m1;
   reward_t m_reward_m2;
   int m_score;
-  int m_cursor_inactive;
+  int m_no_input;
 };
 
 }  // namespace ale

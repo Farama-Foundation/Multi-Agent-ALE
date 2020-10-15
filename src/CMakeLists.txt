@@ -1,11 +1,10 @@
 option(USE_SDL "Use SDL" OFF)
 option(BUILD_CPP_LIB "Build C++ Shared Library" ON)
 option(BUILD_TEST_EXEC "Build C++ Shared Library" OFF)
-option(BUILD_C_LIB "Build C Shared Library" OFF)
-
+option(BUILD_PYTHON "Build Python Interface" ON)
 
 # Include src/ and cmake binary directory (for version.hpp)
-include_directories(BEFORE ${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+include_directories(BEFORE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
 # ale object containing source files
 add_library(ale OBJECT)
@@ -77,20 +76,25 @@ if (BUILD_CPP_LIB)
   target_link_libraries(ale-lib PUBLIC ale)
 endif()
 
-if(BUILD_C_LIB)
-  add_library(ale-c-lib SHARED ./../multi_agent_ale_py/ale_c_wrapper.cpp ale_interface.cpp)
-  set_target_properties(ale-c-lib PROPERTIES OUTPUT_NAME ale_c)
-  #set_target_properties(ale-c-lib PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/multi_agent_ale_py)
-  if(PYTHON_MODULE_EXTENSION)
-    set_target_properties(ale-c-lib PROPERTIES SUFFIX "${PYTHON_MODULE_EXTENSION}")
-  endif()
-  if(UNIX)
-    install(TARGETS ale-c-lib
-      DESTINATION ${LIB_INSTALL_DIR})
-  endif()
-  target_link_libraries(ale-c-lib ale)
-endif()
+# Python Interface
+if (BUILD_PYTHON)
+  find_package(Python3 COMPONENTS Interpreter Development)
 
+  include(FetchContent)
+  FetchContent_Declare(
+      pybind11
+      GIT_REPOSITORY https://github.com/pybind/pybind11
+      GIT_TAG v2.4.3
+  )
+  FetchContent_MakeAvailable(pybind11)
+
+  add_library(ale-py MODULE ale_interface.cpp ale_python_interface.cpp)
+  target_link_libraries(ale-py PUBLIC ale)
+  target_link_libraries(ale-py PRIVATE pybind11::module)
+  set_target_properties(ale-py PROPERTIES OUTPUT_NAME ale_py
+                                          PREFIX "${PYTHON_MODULE_PREFIX}"
+                                          SUFFIX "${PYTHON_MODULE_EXTENSION}")
+endif()
 
 
 # Install cpp-lib and CMake config & pkg-config

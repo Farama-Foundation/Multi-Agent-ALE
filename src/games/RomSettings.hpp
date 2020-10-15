@@ -38,11 +38,11 @@
 #include <memory>
 #include <stdexcept>
 
-#include "../common/Constants.h"
-#include "../emucore/Serializer.hxx"
-#include "../emucore/Deserializer.hxx"
-#include "../emucore/Settings.hxx"
-#include "../environment/stella_environment_wrapper.hpp"
+#include "common/Constants.h"
+#include "emucore/Serializer.hxx"
+#include "emucore/Deserializer.hxx"
+#include "emucore/Settings.hxx"
+#include "environment/stella_environment_wrapper.hpp"
 
 class System;
 
@@ -117,6 +117,9 @@ class RomSettings {
   virtual void setMode(
       game_mode_t, System& system,
       std::unique_ptr<StellaEnvironmentWrapper> environment);
+
+  // Return the default mode for the game.
+  virtual game_mode_t getDefaultMode();
 
   // Returns a list of difficulties that the game can be played in.
   // By default, there is only one available difficulty.

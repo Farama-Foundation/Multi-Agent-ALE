@@ -24,9 +24,9 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#include "bspf.hxx"
-#include "OSystem.hxx"
-#include "OSystemUNIX.hxx"
+#include "emucore/bspf/bspf.hxx"
+#include "emucore/OSystem.hxx"
+#include "os_dependent/OSystemUNIX.hxx"
 using namespace std;
 
 //ALE  #ifdef HAVE_GETTIMEOFDAY

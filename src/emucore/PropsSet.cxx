@@ -19,11 +19,11 @@
 #include <sstream>
 #include <string.h>
 
-#include "OSystem.hxx"
-#include "DefProps.hxx"
-#include "Props.hxx"
-#include "PropsSet.hxx"
-#include "bspf.hxx"
+#include "emucore/OSystem.hxx"
+#include "emucore/DefProps.hxx"
+#include "emucore/Props.hxx"
+#include "emucore/PropsSet.hxx"
+#include "emucore/bspf/bspf.hxx"
 using namespace std;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
