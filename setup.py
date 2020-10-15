@@ -113,10 +113,7 @@ def _is_valid_semver(version):
 def _parse_version(filename):
     """
     Parse VERSION from `CMakeLists.txt`
-<<<<<<< HEAD
-=======
 
->>>>>>> base_master2
     args:
         filename: should point to the projects CMakeLists.txt
     returns:
@@ -137,11 +134,7 @@ def _parse_version(filename):
         raise RuntimeError("Unable to find VERSION in {}".format(filename))
 
     version = version_match.group(1)
-<<<<<<< HEAD
     version_suffix = ""
-=======
-    version_suffix = ".dev0"
->>>>>>> base_master2
     assert _is_valid_semver(version), "ALEVERSION {} must conform to semver.".format(
         version
     )
@@ -168,45 +161,14 @@ def _parse_version(filename):
 setup(
     name="multi-agent-ale-py",
     version=_parse_version("CMakeLists.txt"),
-<<<<<<< HEAD
     description="Multi-Agent Arcade Learning Environment Python Interface",
     long_description=_read("README.md"),
     long_description_content_type="text/markdown",
     keywords=["reinforcement-learning", "arcade-learning-environment", "atari"],
     url="https://github.com/PettingZoo-Team/Multi-Agent-ALE",
     author="PettingZoo Team",
-    author_email="jordan@jkterry.ai",
-    license="GPL",
-    ext_modules=[
-        CMakeExtension(
-            "multi_agent_ale_py.libale_c",
-            ".",
-            [
-                "-DUSE_SDL=OFF",
-                "-DUSE_RLGLUE=OFF",
-                "-DBUILD_EXAMPLES=OFF",
-                "-DBUILD_CPP_LIB=OFF",
-                "-DBUILD_CLI=OFF",
-                "-DBUILD_C_LIB=ON",
-            ],
-        )
-    ],
-    cmdclass={"build_ext": CMakeBuild},
-    packages=["multi_agent_ale_py"],
-    install_requires=[
-        "numpy"
-    ],
-    include_package_data=True,
-=======
-    description="The Arcade Learning Environment (ALE) - a platform for AI research.",
-    long_description=_read("README.md"),
-    long_description_content_type="text/markdown",
-    keywords=["reinforcement-learning", "arcade-learning-environment", "atari"],
-    url="https://github.com/mgbellemare/Arcade-Learning-Environment",
-    author="Arcade Learning Environment Authors",
     license="GPLv2",
     python_requires=">=3.5",
->>>>>>> base_master2
     classifiers=[
         # Development Status
         "Development Status :: 5 - Production/Stable",

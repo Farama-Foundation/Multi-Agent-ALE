@@ -91,7 +91,7 @@ if (BUILD_PYTHON)
   add_library(ale-py MODULE ale_interface.cpp ale_python_interface.cpp)
   target_link_libraries(ale-py PUBLIC ale)
   target_link_libraries(ale-py PRIVATE pybind11::module)
-  set_target_properties(ale-py PROPERTIES OUTPUT_NAME ale_py
+  set_target_properties(ale-py PROPERTIES OUTPUT_NAME multi_agent_ale_py
                                           PREFIX "${PYTHON_MODULE_PREFIX}"
                                           SUFFIX "${PYTHON_MODULE_EXTENSION}")
 endif()
