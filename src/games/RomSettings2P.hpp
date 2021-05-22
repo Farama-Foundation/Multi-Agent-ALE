@@ -59,10 +59,6 @@ class RomSettings2P : public RomSettings {
   // note that this list will be disjoint from getAvailableModes
   virtual ModeVect get2PlayerModes() = 0;
   virtual void setMode(game_mode_t m, System&, std::unique_ptr<StellaEnvironmentWrapper>) = 0;
-
-protected:
-  //helper method to get 2 player modes
-  ModeVect oppositeModes(int num_modes);
 };
 
 }  // namespace ale

@@ -89,6 +89,12 @@ class ALEState {
   //Get the current mode we are in.
   game_mode_t getCurrentMode() const { return m_mode; }
 
+  //Save the number of players in the current mode.
+  void setNumActivePlayers(int value) { m_num_players = value; }
+
+  //Get the number of players in the current mode.
+  int getNumActivePlayers() const { return m_num_players; }
+
   std::string serialize();
 
   /** Reset key presses */
@@ -138,6 +144,7 @@ class ALEState {
 
   game_mode_t m_mode;              // The current mode we are in
   difficulty_t m_difficulty;       // The current difficulty we are in
+  int m_num_players;               // The number of players in the current mode
 };
 
 }  // namespace ale

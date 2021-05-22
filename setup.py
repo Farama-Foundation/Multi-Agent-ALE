@@ -27,7 +27,7 @@ class CMakeBuild(build_ext):
         for ext in self.extensions:
             extdir = os.path.abspath(os.path.dirname(self.get_ext_fullpath(ext.name)))
             cfg = "Debug" if self.debug else "Release"
-
+            print(cfg)
             if sys.platform.startswith("linux"):
                 ext_suffix = ".so"
             elif sys.platform.startswith("darwin"):

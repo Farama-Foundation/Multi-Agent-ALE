@@ -9,6 +9,13 @@ This is a fork of the [Arcade Learning Environment (ALE)](https://github.com/mgb
 
 To install it in Python, please use `pip install multi-agent-ale-py`
 
+To install ROMs, you can use AutoROM
+
+```
+pip install AutoROM
+AutoROM
+```
+
 ## Citation
 
 ```

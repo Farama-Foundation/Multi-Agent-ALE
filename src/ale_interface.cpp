@@ -407,24 +407,8 @@ void ALEInterface::setMode(game_mode_t m) {
   }
 }
 
-bool in_modes(const ModeVect & modes,game_mode_t m){
-  return std::find(modes.begin(), modes.end(), m) != modes.end();
-}
-
 int ALEInterface::numPlayersActive(){
-  game_mode_t m = this->getMode();
-  if(in_modes(romSettings->get4PlayerModes(),m)){
-    return 4;
-  }
-  else if (in_modes(romSettings->get2PlayerModes(),m)) {
-    return 2;
-  }
-  else if(in_modes(romSettings->getAvailableModes(),m)){
-    return 1;
-  }
-  else{
-    assert(false && "bad mode");
-  }
+  return environment->getState().getNumActivePlayers();
 }
 
 //Returns the vector of difficulties available for the current game.

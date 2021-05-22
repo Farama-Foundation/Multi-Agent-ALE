@@ -33,7 +33,8 @@ ALEState::ALEState()
       m_frame_number(0),
       m_episode_frame_number(0),
       m_mode(0),
-      m_difficulty(0) {
+      m_difficulty(0),
+      m_num_players(1) {
         for(int i = 0; i < 4; i++){
           m_paddle[i] = PADDLE_DEFAULT_VALUE;
         }
@@ -46,7 +47,8 @@ ALEState::ALEState(const ALEState& rhs, const std::string& serialized)
       m_episode_frame_number(rhs.m_episode_frame_number),
       m_serialized_state(serialized),
       m_mode(rhs.m_mode),
-      m_difficulty(rhs.m_difficulty) {
+      m_difficulty(rhs.m_difficulty),
+      m_num_players(rhs.m_num_players) {
         for(int i = 0; i < 4; i++){
           m_paddle[i] = rhs.m_paddle[i];
         }
@@ -61,6 +63,7 @@ ALEState::ALEState(const std::string& serialized) {
   this->m_episode_frame_number = des.getInt();
   this->m_mode = des.getInt();
   this->m_difficulty = des.getInt();
+  this->m_num_players = des.getInt();
   this->m_serialized_state = des.getString();
   this->m_paddle_min = des.getInt();
   this->m_paddle_max = des.getInt();
@@ -95,6 +98,7 @@ void ALEState::load(OSystem* osystem, RomSettings* settings, std::string md5,
   m_episode_frame_number = rhs.m_episode_frame_number;
   m_mode = rhs.m_mode;
   m_difficulty = rhs.m_difficulty;
+  m_num_players = rhs.m_num_players;
 }
 
 ALEState ALEState::save(OSystem* osystem, RomSettings* settings,
@@ -131,6 +135,7 @@ std::string ALEState::serialize() {
   ser.putInt(this->m_episode_frame_number);
   ser.putInt(this->m_mode);
   ser.putInt(this->m_difficulty);
+  ser.putInt(this->m_num_players);
   ser.putString(this->m_serialized_state);
   ser.putInt(this->m_paddle_min);
   ser.putInt(this->m_paddle_max);
@@ -504,7 +509,9 @@ bool ALEState::equals(ALEState& rhs) {
           std::equal(rhs.m_paddle,rhs.m_paddle+4,this->m_paddle) &&
           rhs.m_frame_number == this->m_frame_number &&
           rhs.m_episode_frame_number == this->m_episode_frame_number &&
-          rhs.m_mode == this->m_mode && rhs.m_difficulty == this->m_difficulty);
+          rhs.m_mode == this->m_mode &&
+          rhs.m_difficulty == this->m_difficulty &&
+          rhs.m_num_players == this->m_num_players);
 }
 
 }  // namespace ale

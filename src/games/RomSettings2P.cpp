@@ -29,17 +29,6 @@ int RomSettings2P::livesP2() {
   return 0;
 }
 
-ModeVect RomSettings2P::oppositeModes(int num_modes) {
-  ModeVect single_p_ms = getAvailableModes();
-  std::unordered_set<int> single_p_modes(single_p_ms.begin(),single_p_ms.end());
-  ModeVect other_modes;
-  for(int mode = 0; mode < num_modes; mode++){
-    if(!single_p_modes.count(mode)){
-      other_modes.push_back(mode);
-    }
-  }
-  return other_modes;
-}
 // bool RomSettings2P::in_two_player_list(int mode){
 //   auto modes = get2PlayerModes();
 //   return std::find(modes.begin(), modes.end(), m) != modes.end();

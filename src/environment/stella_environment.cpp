@@ -249,7 +249,26 @@ void StellaEnvironment::setDifficulty(difficulty_t value) {
   m_state.setDifficulty(value);
 }
 
+// helper function for setMode
+static bool in_modes(const ModeVect & modes, game_mode_t m){
+  return std::find(modes.begin(), modes.end(), m) != modes.end();
+}
+
 void StellaEnvironment::setMode(game_mode_t value) {
+  int num_players;
+  if (in_modes(m_settings->getAvailableModes(), value)) {
+    num_players = 1;
+  }
+  else if (in_modes(m_settings->get2PlayerModes(), value)) {
+    num_players = 2;
+  }
+  else if(in_modes(m_settings->get4PlayerModes(), value)){
+    num_players = 4;
+  }
+  else {
+    throw std::runtime_error("Invalid game mode requested");
+  }
+  m_state.setNumActivePlayers(num_players);
   m_state.setCurrentMode(value);
 }
 
