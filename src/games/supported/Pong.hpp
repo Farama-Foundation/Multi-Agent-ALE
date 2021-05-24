@@ -89,8 +89,10 @@ class PongSettings : public RomSettings4P {
 
  private:
   bool m_terminal;
-  reward_t m_reward;
+  reward_t m_reward_p1;
+  reward_t m_reward_p2;
   reward_t m_score;
+  int no_serve_counter;
 };
 
 }  // namespace ale
