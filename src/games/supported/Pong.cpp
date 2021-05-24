@@ -29,9 +29,32 @@ void PongSettings::step(const System& system) {
   int x = readRam(&system, 13); // cpu score
   int y = readRam(&system, 14); // player score
   reward_t score = y - x;
-  m_reward = score - m_score;
+  m_reward_p1 = score - m_score;
+  m_reward_p2 = -m_reward_p1;
   m_score = score;
 
+  if((readRam(&system, 0x8c - 0x80) & 0xf0) == 0){
+      // 0x8c describes the motion of the ball.
+      // if it is 0, then it is going nowhere,
+      // i.e. waiting to be served
+      no_serve_counter++;
+  }
+  else{
+      no_serve_counter = 0;
+  }
+  if(no_serve_counter >= 120) {
+      // gives player 2 full seconds to serve, then
+      // starts penalizing
+      if (readRam(&system, 0x92 - 0x80) == 0){
+          // is player 2's serve, penalize player 2
+          m_reward_p2--;
+      }
+      else{
+          // is player 1's serve, penalize player 1
+          m_reward_p1--;
+      }
+      no_serve_counter = 0;
+    }
   // update terminal status
   // (game over when a player reaches 21)
   m_terminal = x == 21 || y == 21;
@@ -41,11 +64,11 @@ void PongSettings::step(const System& system) {
 bool PongSettings::isTerminal() const { return m_terminal; };
 
 /* get the most recently observed reward */
-reward_t PongSettings::getReward() const { return m_reward; }
-reward_t PongSettings::getRewardP2() const { return -m_reward; }
+reward_t PongSettings::getReward() const { return m_reward_p1; }
+reward_t PongSettings::getRewardP2() const { return m_reward_p2; }
 //P3 is on same team as P1, P2-P4
-reward_t PongSettings::getRewardP3() const { return m_reward; };
-reward_t PongSettings::getRewardP4() const { return -m_reward; };
+reward_t PongSettings::getRewardP3() const { return m_reward_p1; };
+reward_t PongSettings::getRewardP4() const { return m_reward_p2; };
 
 
 /* is an action part of the minimal set? */
@@ -65,23 +88,29 @@ bool PongSettings::isMinimal(const Action& a) const {
 
 /* reset the state of the game */
 void PongSettings::reset() {
-  m_reward = 0;
+  m_reward_p1 = 0;
+  m_reward_p2 = 0;
   m_score = 0;
   m_terminal = false;
+  no_serve_counter = 0;
 }
 
 /* saves the state of the rom settings */
 void PongSettings::saveState(Serializer& ser) {
-  ser.putInt(m_reward);
+  ser.putInt(m_reward_p1);
+  ser.putInt(m_reward_p2);
   ser.putInt(m_score);
   ser.putBool(m_terminal);
+  ser.putInt(no_serve_counter);
 }
 
 // loads the state of the rom settings
 void PongSettings::loadState(Deserializer& ser) {
-  m_reward = ser.getInt();
+  m_reward_p1 = ser.getInt();
+  m_reward_p2 = ser.getInt();
   m_score = ser.getInt();
   m_terminal = ser.getBool();
+  no_serve_counter = ser.getInt();
 }
 
 // returns a list of mode that the game can be played in
