@@ -12,9 +12,9 @@ To install it in Python, please use `pip install multi-agent-ale-py`
 ## Citation
 
 ```
-@article{terry2020arcade,
-  Title = {Multiplayer Support for the Arcade Learning Environment},
-  Author = {Terry, Justin K and Black, Benjamin},
+@article{terry2020multiplayer,
+  title={Multiplayer support for the arcade learning environment},
+  author={Terry, J K and Black, Benjamin and Santos, Luis},
   journal={arXiv preprint arXiv:2009.09341},
   year={2020}
 }
