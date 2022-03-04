@@ -140,9 +140,9 @@ setup(
     long_description=_read("README.md"),
     long_description_content_type="text/markdown",
     keywords=["reinforcement-learning", "arcade-learning-environment", "atari"],
-    url="https://github.com/PettingZoo-Team/Multi-Agent-ALE",
-    author="PettingZoo Team",
-    author_email="jordan@jkterry.ai",
+    url="https://github.com/Farama-Foundation/Multi-Agent-ALE",
+    author="Farama Foundation",
+    author_email="jkterry@farama.org",
     license="GPL",
     ext_modules=[
         CMakeExtension(
@@ -169,9 +169,9 @@ setup(
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
         "Intended Audience :: Science/Research",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.5",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
     ],
 )
