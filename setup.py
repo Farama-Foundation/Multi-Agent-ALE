@@ -163,7 +163,7 @@ setup(
     install_requires=[
         "numpy"
     ],
-    python_requires=">=3.7",
+    python_requires=">=3.9",
     include_package_data=True,
     classifiers=[
         "Development Status :: 5 - Production/Stable",
