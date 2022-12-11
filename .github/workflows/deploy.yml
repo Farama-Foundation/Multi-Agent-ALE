@@ -3,7 +3,10 @@ name: Python package
 
 on:
   push:
-    branches: [ dev_py_wheels ] # to be replaced 
+    branches: [ master ]
+    # branches: [ production ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build_linux:
@@ -94,11 +97,9 @@ jobs:
 
       - uses: pypa/gh-action-pypi-publish@v1.5.0
         with:
-          # user: ${{ secrets.PYPI_USER }}
-          # password: ${{ secrets.PYPI_PASSWORD }} 
-          user: __token__
-          password: ${{ secrets.PYPI_PASSWORD }}
+          user: ${{ secrets.PYPI_USER }}
+          password: ${{ secrets.PYPI_PASSWORD }} 
           # Recommend to upload to PyPI test for the first run
-          repository_url: https://test.pypi.org/legacy/
+          # repository_url: https://test.pypi.org/legacy/
           skip_existing: true
           verbose: true
