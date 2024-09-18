@@ -26,6 +26,7 @@
 #include "VideoCube.hpp"
 
 #include <cmath>
+#include <cstdint>
 #include <stdexcept>
 
 #include "../RomUtils.hpp"
