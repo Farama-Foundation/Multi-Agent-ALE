@@ -9,12 +9,14 @@ This is a fork of the [Arcade Learning Environment (ALE)](https://github.com/mgb
 
 To install it in Python, please use `pip install multi-agent-ale-py`
 
+Note: Some Linux distributions may require manual installation of `cmake`, `swig`, or `zlib1g-dev` (e.g., `sudo apt install cmake swig zlib1g-dev`)
+
 ## Citation
 
 ```
-@article{terry2020arcade,
-  Title = {Multiplayer Support for the Arcade Learning Environment},
-  Author = {Terry, Justin K and Black, Benjamin},
+@article{terry2020multiplayer,
+  title={Multiplayer support for the arcade learning environment},
+  author={Terry, J K and Black, Benjamin and Santos, Luis},
   journal={arXiv preprint arXiv:2009.09341},
   year={2020}
 }

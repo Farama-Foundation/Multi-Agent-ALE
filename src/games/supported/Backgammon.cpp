@@ -25,6 +25,8 @@
  * *****************************************************************************
  */
 
+#include <cstdint>
+
 #include "Backgammon.hpp"
 
 #include "../RomUtils.hpp"

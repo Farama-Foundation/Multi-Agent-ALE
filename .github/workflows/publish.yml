@@ -1,0 +1,103 @@
+# This workflow will install Python wheels and publish to PyPI
+name: Publish Python package
+
+on:
+  push:
+    branches: [ production ]
+
+jobs:
+  build_linux:
+    name: Linux Wheels
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10']
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install cibuildwheel
+      run: python3 -m pip install cibuildwheel==3.4.1
+
+    - name: Build wheels
+      run: python3 -m cibuildwheel --output-dir wheelhouse
+      env:
+        CIBW_SKIP: "*musllinux* pp* *-manylinux_i686"
+        CIBW_BUILD_VERBOSITY: 1
+
+    - uses: actions/upload-artifact@v3
+      with:
+        path: ./wheelhouse/*.whl
+
+  build_macos:
+    name: Macos Wheels
+    runs-on: macos-11
+    strategy:
+      matrix:
+        python-version: ['3.10']
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install cibuildwheel
+      run: python3 -m pip install cibuildwheel==3.4.1
+
+    - name: Build wheels
+      run: python3 -m cibuildwheel --output-dir wheelhouse
+      env:
+        # Apple M1 and Intel
+        CIBW_ARCHS_MACOS: arm64
+        CIBW_SKIP: "pp*"
+        CIBW_BUILD_VERBOSITY: 1
+
+    - uses: actions/upload-artifact@v3
+      with:
+        path: ./wheelhouse/*.whl
+
+  build_sdist:
+    name: Build Source Distribution
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build sdist
+        run: pipx run build --sdist
+
+      - uses: actions/upload-artifact@v3
+        with:
+          path: dist/*.tar.gz
+
+  upload_pypi:
+    needs: [build_linux, build_macos, build_sdist]
+    runs-on: ubuntu-latest
+
+    # upload to PyPI on every tag starting with 'v'
+    #if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    # alternatively, to publish when a GitHub Release is created, use the following rule:
+    if: github.event_name == 'release' && github.event.action == 'published'
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          # unpacks default artifact into dist/
+          # if `name: artifact` is omitted, the action will create extra parent dir
+          name: artifact
+          path: dist
+
+      - uses: pypa/gh-action-pypi-publish@v1.5.0
+        with:
+          user: ${{ secrets.PYPI_USER }}
+          password: ${{ secrets.PYPI_PASSWORD }} 
+          # Recommend to upload to PyPI test for the first run
+          # repository_url: https://test.pypi.org/legacy/
+          skip_existing: true
+          verbose: true
