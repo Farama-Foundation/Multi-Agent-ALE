@@ -143,7 +143,7 @@ def _parse_version(filename):
         assert (
             version_tag == version
         ), "Tagged version must match VERSION but got:\n\tVERSION: {}\n\tTAG: {}".format(
-            version, tagged_version
+            version, version_tag
         )
         version_suffix = ""
 

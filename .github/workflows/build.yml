@@ -48,4 +48,4 @@ jobs:
         pip freeze
 
     - name: Import check
-      run: python -c "import multi_agent_ale_py"
+      run: cd .. && python -c "import multi_agent_ale_py"
