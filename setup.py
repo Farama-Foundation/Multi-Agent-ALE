@@ -15,6 +15,30 @@ class CMakeExtension(Extension):
 
 
 class CMakeBuild(build_ext):
+    @staticmethod
+    def _shared_library_extension():
+        if sys.platform.startswith("linux"):
+            return ".so"
+        if sys.platform.startswith("darwin"):
+            return ".dylib"
+        if sys.platform.startswith("win"):
+            return ".dll"
+        raise RuntimeError('CMakeBuild: Platform "%s" not recognized' % sys.platform)
+
+    @classmethod
+    def _shared_library_filename(cls, name):
+        ext_suffix = cls._shared_library_extension()
+        library_format = "{}{}" if sys.platform.startswith("win") else "lib{}{}"
+        return library_format.format(name, ext_suffix)
+
+    def get_ext_filename(self, fullname):
+        ext = next((ext for ext in self.extensions if ext.name == fullname), None)
+        if isinstance(ext, CMakeExtension):
+            package_path = fullname.split(".")[:-1]
+            filename = self._shared_library_filename(fullname.split(".")[-1])
+            return os.path.join(*package_path, filename)
+        return super().get_ext_filename(fullname)
+
     def build_extensions(self):
         try:
             subprocess.check_output(["cmake", "--version"])
@@ -26,27 +50,20 @@ class CMakeBuild(build_ext):
 
         for ext in self.extensions:
             extdir = os.path.abspath(os.path.dirname(self.get_ext_fullpath(ext.name)))
+            build_temp = os.path.abspath(self.build_temp)
             cfg = "Debug" if self.debug else "Release"
-
-            if sys.platform.startswith("linux"):
-                ext_suffix = ".so"
-            elif sys.platform.startswith("darwin"):
-                ext_suffix = ".dylib"
-            elif sys.platform.startswith("win"):
-                ext_suffix = ".dll"
-            else:
-                raise RuntimeError(
-                    'CMakeBuild: Platform "%s" not recognized' % sys.platform
-                )
+            ext_suffix = self._shared_library_extension()
 
             cmake_build_args = []
             cmake_config_args = [
-                "-DOUTPUT_NAME={}".format(ext.name),
                 "-DCMAKE_BUILD_TYPE={}".format(cfg),
+                "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY={}".format(extdir),
+                "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY={}".format(extdir),
+                "-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY={}".format(build_temp),
                 "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY_{}={}".format(cfg.upper(), extdir),
                 "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY_{}={}".format(cfg.upper(), extdir),
                 "-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY_{}={}".format(
-                    cfg.upper(), self.build_temp
+                    cfg.upper(), build_temp
                 ),
                 "-DPYTHON_MODULE_EXTENSION={}".format(ext_suffix),
             ] + ext.config
@@ -62,14 +79,14 @@ class CMakeBuild(build_ext):
             cmake_config_args += shlex.split(os.environ.get("ALE_PY_CMAKE_ARGS", ""))
             cmake_build_args += shlex.split(os.environ.get("ALE_PY_BUILD_ARGS", ""))
 
-            if not os.path.exists(self.build_temp):
-                os.makedirs(self.build_temp)
+            os.makedirs(build_temp, exist_ok=True)
+            os.makedirs(extdir, exist_ok=True)
 
             subprocess.check_call(
-                ["cmake", ext.sourcedir] + cmake_config_args, cwd=self.build_temp
+                ["cmake", "-S", ext.sourcedir, "-B", build_temp] + cmake_config_args
             )
             subprocess.check_call(
-                ["cmake", "--build", "."] + cmake_build_args, cwd=self.build_temp
+                ["cmake", "--build", build_temp] + cmake_build_args
             )
 
 
@@ -146,7 +163,7 @@ setup(
     license="GPL",
     ext_modules=[
         CMakeExtension(
-            "multi_agent_ale_py.libale_c",
+            "multi_agent_ale_py.ale_c",
             ".",
             [
                 "-DUSE_SDL=OFF",
@@ -170,9 +187,11 @@ setup(
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
         "Intended Audience :: Science/Research",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
+        "Programming Language :: Python :: 3.14",
     ],
 )
