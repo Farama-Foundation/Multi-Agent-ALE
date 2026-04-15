@@ -1,5 +1,5 @@
 # This workflow will install Python wheels and publish to PyPI
-name: Python package
+name: Publish Python package
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Install cibuildwheel
-      run: python3 -m pip install cibuildwheel==2.11.2
+      run: python3 -m pip install cibuildwheel==3.4.1
 
     - name: Build wheels
       run: python3 -m cibuildwheel --output-dir wheelhouse
@@ -50,13 +50,13 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Install cibuildwheel
-      run: python3 -m pip install cibuildwheel==2.11.2
+      run: python3 -m pip install cibuildwheel==3.4.1
 
     - name: Build wheels
       run: python3 -m cibuildwheel --output-dir wheelhouse
       env:
         # Apple M1 and Intel
-        CIBW_ARCHS_MACOS: x86_64 arm64
+        CIBW_ARCHS_MACOS: arm64
         CIBW_SKIP: "pp*"
         CIBW_BUILD_VERBOSITY: 1
 

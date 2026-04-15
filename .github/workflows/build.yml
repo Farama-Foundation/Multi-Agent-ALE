@@ -1,0 +1,51 @@
+name: Build test
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build_and_test:
+    name: Build on ${{ matrix.os }} with Python ${{ matrix.python-version }}
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, ubuntu-24.04, macos-14]
+        python-version: ['3.9', '3.10', '3.11', '3.12', '3.13', '3.14']
+      fail-fast: true
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Report OS
+      run: |
+        echo ${{ matrix.os }}
+        echo ${{ runner.os }}
+        uname -p
+
+    - name: Install dependencies on Ubuntu
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt update
+        sudo apt install cmake swig zlib1g-dev
+        apt list --installed
+
+    - name: Set up Python ${{ matrix.python-version }} environment
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Python environment report
+      run: python -c "import sys; print(sys.version)"
+
+    - name: Pip install
+      run: |
+        pip install .
+        pip freeze
+
+    - name: Import check
+      run: cd .. && python -c "import multi_agent_ale_py"
