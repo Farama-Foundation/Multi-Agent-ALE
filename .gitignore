@@ -7,11 +7,6 @@ doc/examples/*Example
 multi_agent_ale_py.egg-info
 ## Generic
 
-# Emacs temp files
-*~
-.*
-*#
-
 # Auto-generated dependency files
 .deps
 
@@ -31,3 +26,9 @@ multi_agent_ale_py.egg-info
 
 # Python
 *.pyc
+
+# CMake + Makefiles
+CMakeCache.txt
+CMakeFiles/
+Makefile
+*.cmake
