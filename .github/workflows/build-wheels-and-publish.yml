@@ -1,4 +1,4 @@
-name: Publish Python package
+name: Build Python wheels and publish to PyPI
 
 on:
   workflow_dispatch:
@@ -84,6 +84,11 @@ jobs:
     name: Upload to PyPI
     needs: [build_linux, build_macos, build_sdist]
     runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/multi-agent-ale-py
+    permissions:
+      id-token: write
     if: github.event_name == 'release' && github.event.action == 'published'
     steps:
       - uses: actions/download-artifact@v4
@@ -92,11 +97,5 @@ jobs:
           merge-multiple: true
           path: dist
 
-      - uses: pypa/gh-action-pypi-publish@v1.5.0
-        with:
-          user: ${{ secrets.PYPI_USER }}
-          password: ${{ secrets.PYPI_PASSWORD }} 
-          # Recommend to upload to PyPI test for the first run
-          # repository_url: https://test.pypi.org/legacy/
-          skip_existing: true
-          verbose: true
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
